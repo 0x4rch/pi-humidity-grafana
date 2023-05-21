@@ -13,3 +13,8 @@ org="" # Influx Organization
 url="" # Influx DB URL
 bucket="" # Influx Bucket
 ```
+### Service
+- Service file should live at `lib/systemd/system/pi-humidity-grafana.service`
+- To pick up the new service `sudo systemctl daemon-reload`
+- To enable the service at startup `sudo systemctl enable pi-humidity-grafana.service`
+- To start manually `sudo systemctl start pi-humidity-grafana.service`

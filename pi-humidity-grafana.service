@@ -1,0 +1,13 @@
+[Unit]
+Description=Pi Humidity Influx Grafana Service
+After=multi-user.target
+Conflicts=getty@tty1.service
+ 
+[Service]
+Type=simple
+ExecStart=/usr/bin/python3 /home/shad0w/pi-humidity-grafana/main.py 
+StandardInput=tty-force
+User=shad0w
+ 
+[Install]
+WantedBy=multi-user.target
