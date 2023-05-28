@@ -8,6 +8,8 @@ Type=simple
 ExecStart=/usr/bin/python3 /home/shad0w/pi-humidity-grafana/main.py 
 StandardInput=tty-force
 User=shad0w
+Restart=always
+RestartSec=3
  
 [Install]
 WantedBy=multi-user.target
