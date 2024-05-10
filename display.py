@@ -31,7 +31,7 @@ class Display():
                 lcd_rs, lcd_en, lcd_d4, lcd_d5, lcd_d6, lcd_d7, lcd_columns, lcd_rows
         )
 
-    def print_message(humidity, temperature):
+    def print_message(self, humidity, temperature):
         # print text
         now = datetime.datetime.now()
         date = now.strftime("%m/%d/%Y")
