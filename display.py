@@ -27,7 +27,7 @@ class Display():
         lcd_d4 = digitalio.DigitalInOut(board.D13)
 
         # initialize display
-        lcd = characterlcd.Character_LCD_Mono(
+        self.lcd = characterlcd.Character_LCD_Mono(
                 lcd_rs, lcd_en, lcd_d4, lcd_d5, lcd_d6, lcd_d7, lcd_columns, lcd_rows
         )
 
@@ -39,4 +39,4 @@ class Display():
         message = f'{temperature} F    {time}\n{humidity}%    {date}'
         # TODO: Remove print
         print(message)
-        lcd.message = message
+        self.lcd.message = message
