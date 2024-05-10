@@ -18,3 +18,6 @@ bucket="" # Influx Bucket
 - To pick up the new service `sudo systemctl daemon-reload`
 - To enable the service at startup `sudo systemctl enable pi-humidity-grafana.service`
 - To start manually `sudo systemctl start pi-humidity-grafana.service`
+
+### Display
+We also support a 16x2 lcd display check out Display.py for info
