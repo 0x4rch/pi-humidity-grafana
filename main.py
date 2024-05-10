@@ -6,6 +6,7 @@ from influxdb_client.client.write_api import SYNCHRONOUS
 from dotenv import load_dotenv
 import adafruit_dht
 from sensor import Sensor
+from display import Display
 
 load_dotenv()  # take environment variables from .env.
 
@@ -17,6 +18,7 @@ client = InfluxDBClient(url=url, token=token, org=org)
 write_api = client.write_api(write_options=SYNCHRONOUS)
 
 sensor = Sensor(board.D4)
+display = Display()
 
 while True:
     temperature_f, humidity = sensor.read_data()
@@ -25,4 +27,5 @@ while True:
         write_api.write(bucket=bucket, org="Traphouse", record=point)
         point = Point("humidity_percent").field("humidity_percent", humidity)
         write_api.write(bucket=bucket, org="Traphouse", record=point)
+        display.print_message(humidity, temperature_f)
     time.sleep(2.0)
