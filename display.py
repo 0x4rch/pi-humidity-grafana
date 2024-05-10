@@ -35,7 +35,7 @@ class Display():
         now = datetime.datetime.now()
         date = now.strftime("%m/%d/%Y")
         time = now.strftime("%I:%M %p")
-        message = f'{temperature:.0f} F    {time}\n{humidity:.0f}%    {date}'
+        message = f'{temperature:.0f} F    {time}\n{humidity:.0f}%   {date}'
         # TODO: Remove print
         print(message)
         self.lcd.message = message
