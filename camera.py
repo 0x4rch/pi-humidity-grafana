@@ -1,3 +1,4 @@
+# Taken from https://raspberrytips.com/how-to-live-stream-pi-camera/
 import io
 import logging
 import socketserver
@@ -8,15 +9,18 @@ from picamera2 import Picamera2
 from picamera2.encoders import JpegEncoder
 from picamera2.outputs import FileOutput
 
+
+FRAME_SIZE = (640, 480)
+WIDTH, HEIGHT = FRAME_SIZE
 # HTML page for the MJPEG streaming demo
-PAGE = """\
+PAGE = f"""\
 <html>
 <head>
 <title>RaspberryTips Pi Cam Stream</title>
 </head>
 <body>
 <h1>Raspberry Tips Pi Camera Live Stream Demo</h1>
-<img src="stream.mjpg" width="640" height="480" />
+<img src="stream.mjpg" width="${WIDTH}" height="${HEIGHT}" />
 </body>
 </html>
 """
@@ -83,7 +87,7 @@ class StreamingServer(socketserver.ThreadingMixIn, server.HTTPServer):
 
 # Create Picamera2 instance and configure it
 picam2 = Picamera2()
-picam2.configure(picam2.create_video_configuration(main={"size": (640, 480)}))
+picam2.configure(picam2.create_video_configuration(main={"size": (WIDTH, HEIGHT)}))
 output = StreamingOutput()
 picam2.start_recording(JpegEncoder(), FileOutput(output))
 
