@@ -10,7 +10,7 @@ from picamera2.encoders import JpegEncoder
 from picamera2.outputs import FileOutput
 
 
-FRAME_SIZE = (640, 480)
+FRAME_SIZE = (1920, 1080)
 WIDTH, HEIGHT = FRAME_SIZE
 # HTML page for the MJPEG streaming demo
 PAGE = f"""\
