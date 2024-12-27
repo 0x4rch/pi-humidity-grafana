@@ -87,8 +87,8 @@ class StreamingServer(socketserver.ThreadingMixIn, server.HTTPServer):
 
 # Create Picamera2 instance and configure it
 picam2 = Picamera2()
-picam2.configure(picam2.create_video_configuration(main={"size": (WIDTH, HEIGHT)}))
-picam2.video_configuration.controls.FrameRate = 25.0
+FRAMERATE = 24  # Set your desired framerate
+picam2.configure(picam2.create_video_configuration(main={"size": (WIDTH, HEIGHT), "format": "RGB888"}, controls={"FrameRate": FRAMERATE}))
 output = StreamingOutput()
 picam2.start_recording(JpegEncoder(), FileOutput(output))
 
