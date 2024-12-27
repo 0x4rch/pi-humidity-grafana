@@ -10,7 +10,7 @@ from picamera2.encoders import JpegEncoder
 from picamera2.outputs import FileOutput
 
 
-FRAME_SIZE = (1920, 1080)
+FRAME_SIZE = (1280, 720)
 WIDTH, HEIGHT = FRAME_SIZE
 # HTML page for the MJPEG streaming demo
 PAGE = f"""\
@@ -20,7 +20,7 @@ PAGE = f"""\
 </head>
 <body>
 <h1>Raspberry Tips Pi Camera Live Stream Demo</h1>
-<img src="stream.mjpg" width="${WIDTH}" height="${HEIGHT}" />
+<img src="stream.mjpg" width="{WIDTH}" height="{HEIGHT}" />
 </body>
 </html>
 """
