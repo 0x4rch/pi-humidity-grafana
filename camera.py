@@ -112,8 +112,8 @@ class CameraStream:
         </head>
         <body>
         <h1>Raspberry Tips Pi Camera Live Stream Demo</h1>
-        <h2>Temperature: {self.temperature}</h2>
-        <h2>Humidity: {self.humidity}</h2>
+        <h2>Temperature: {temperature}</h2>
+        <h2>Humidity: {humidity}</h2>
         <img src="stream.mjpg" width="{self.width}" height="{self.height}" />
         </body>
         </html>
