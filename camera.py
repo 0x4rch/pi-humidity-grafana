@@ -19,7 +19,7 @@ class StreamingOutput(io.BufferedIOBase):
             self.condition.notify_all()
 
 class StreamingHandler(server.BaseHTTPRequestHandler):
-    PAGE_TEMPLATE = f"""\
+    PAGE_TEMPLATE = """\
 <html>
 <head>
 <title>RaspberryTips Pi Cam Stream</title>
