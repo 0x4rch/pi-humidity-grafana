@@ -83,19 +83,7 @@ class CameraStream:
     def __init__(self, width, height, temperature, humidity):
         self.width, self.height = width, height
         self.temperature, self.humidity = temperature, humidity
-        self.page = f"""\
-        <html>
-        <head>
-        <title>RaspberryTips Pi Cam Stream</title>
-        </head>
-        <body>
-        <h1>Raspberry Tips Pi Camera Live Stream Demo</h1>
-        <h2>Temperature: {self.temperature}</h2>
-        <h2>Humidity: {self.humidity}</h2>
-        <img src="stream.mjpg" width="{self.width}" height="{self.height}" />
-        </body>
-        </html>
-        """
+        self.page = generate_page(self.temperature, self.humidity)
         self.output = StreamingOutput()
         self.picam2 = Picamera2()
         self.framerate = 24  # Set your desired framerate
@@ -114,7 +102,10 @@ class CameraStream:
         print('Updating temperature and humidity')
         self.temperature = temperature
         self.humidity = humidity
-        self.page = f"""\
+        self.page = generate_page(self.temperature, self.humidity)
+
+    def generate_page(self, temperature, humidity):
+        f"""\
         <html>
         <head>
         <title>RaspberryTips Pi Cam Stream UPDATED</title>
