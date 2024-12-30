@@ -1,4 +1,4 @@
-# Taken from https://raspberrytips.com/how-to-live-stream-pi-camera/
+# Inspired By: https://raspberrytips.com/how-to-live-stream-pi-camera/
 import io
 import logging
 import socketserver
@@ -84,7 +84,6 @@ class CameraStream:
         self.width, self.height = width, height
         self.temperature, self.humidity = temperature, humidity
         self.page = self.generate_page(self.temperature, self.humidity)
-        print(self.page)
         self.output = StreamingOutput()
         self.picam2 = Picamera2()
         self.framerate = 24  # Set your desired framerate
@@ -100,20 +99,19 @@ class CameraStream:
             self.picam2.stop_recording()
 
     def update_temperature_and_humidity(self, temperature, humidity):
-        print('Updating temperature and humidity')
+        print('****VALID READING**** Updating temperature and humidity ****VALID READING****')
         self.temperature = temperature
         self.humidity = humidity
         self.page = self.generate_page(self.temperature, self.humidity)
-        print(self.page)
 
     def generate_page(self, temperature, humidity):
         return f"""\
         <html>
         <head>
-        <title>RaspberryTips Pi Cam Stream UPDATED</title>
+        <title>Tent Camera</title>
         </head>
         <body>
-        <h1>Raspberry Tips Pi Camera Live Stream Demo</h1>
+        <h1>LIVE: Tent Camera</h1>
         <h2>Temperature: {temperature}</h2>
         <h2>Humidity: {humidity}</h2>
         <img src="stream.mjpg" width="{self.width}" height="{self.height}" />
