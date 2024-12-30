@@ -40,7 +40,7 @@ class StreamingOutput(io.BufferedIOBase):
 class StreamingHandler(server.BaseHTTPRequestHandler):
     def __init__(self, *args, output=None, **kwargs):
         self.output = output # Store the additional argument
-        super().__init__(*args, **kwargs)  # Call the parent class initializer
+        super()#.__init__(*args, **kwargs)  # Call the parent class initializer
 
     def do_GET(self):
         if self.path == '/':
