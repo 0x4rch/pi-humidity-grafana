@@ -78,8 +78,9 @@ class StreamingServer(socketserver.ThreadingMixIn, server.HTTPServer):
 
 
 class CameraStream:
-    def __init__(self):
-        self.width, self.height = 1280, 720
+    def __init__(self, width, height, temperature, humidity):
+        self.width, self.height = width, height
+        self.temperature, self.humidity = temperature, humidity
         self.page = f"""\
         <html>
         <head>
@@ -87,6 +88,8 @@ class CameraStream:
         </head>
         <body>
         <h1>Raspberry Tips Pi Camera Live Stream Demo</h1>
+        <h2>Temperature: {self.temperature}</h2>
+        <h2>Humidity: {self.humidity}</h2>
         <img src="stream.mjpg" width="{self.width}" height="{self.height}" />
         </body>
         </html>
@@ -104,6 +107,10 @@ class CameraStream:
             server.serve_forever()
         finally:
             self.picam2.stop_recording()
+
+    def update_temperature_and_humidity(self, temperature, humidity):
+        self.temperature = temperature
+        self.humidity = humidity
 
 
 if __name__ == "__main__":

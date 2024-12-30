@@ -20,7 +20,8 @@ write_api = client.write_api(write_options=SYNCHRONOUS)
 
 sensor = Sensor(board.D4)
 display = Display()
-app = StreamingApp(1280, 720)
+temperature_f, humidity = sensor.read_data()
+app = StreamingApp(1280, 720, temperature_f, humidity)
 app.start_server()
 while True:
     temperature_f, humidity = sensor.read_data()
