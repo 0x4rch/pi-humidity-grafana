@@ -22,7 +22,7 @@ sensor = Sensor(board.D4)
 display = Display()
 temperature_f, humidity = sensor.read_data()
 app = CameraStream(1280, 720, temperature_f, humidity)
-app.start_server()
+app.start()
 while True:
     temperature_f, humidity = sensor.read_data()
     if temperature_f is not None and humidity is not None:
