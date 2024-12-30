@@ -74,7 +74,8 @@ class StreamingServer(socketserver.ThreadingMixIn, server.HTTPServer):
         # Pass output to the handler
         self.output = output
         self.camera_stream_instance = camera_stream_instance
-        self.RequestHandlerClass = lambda *args, **kwargs: RequestHandlerClass(*args, output=self.output, age, camera_stream_instance=self.camera_stream_instance, **kwargs)
+        self.RequestHandlerClass = lambda *args, **kwargs: RequestHandlerClass(*args, output=self.output, camera_stream_instance=self.camera_stream_instance, **kwargs)
+
         super().__init__(server_address, self.RequestHandlerClass)
 
 
