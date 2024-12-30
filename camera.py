@@ -111,6 +111,19 @@ class CameraStream:
     def update_temperature_and_humidity(self, temperature, humidity):
         self.temperature = temperature
         self.humidity = humidity
+        self.page = f"""\
+        <html>
+        <head>
+        <title>RaspberryTips Pi Cam Stream UPDATED</title>
+        </head>
+        <body>
+        <h1>Raspberry Tips Pi Camera Live Stream Demo</h1>
+        <h2>Temperature: {self.temperature}</h2>
+        <h2>Humidity: {self.humidity}</h2>
+        <img src="stream.mjpg" width="{self.width}" height="{self.height}" />
+        </body>
+        </html>
+        """
 
 
 if __name__ == "__main__":
