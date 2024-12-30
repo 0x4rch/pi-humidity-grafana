@@ -125,7 +125,7 @@ class CameraStream:
             <div class="flex flex-col md:flex-row items-center gap-4 w-full md:justify-between">
                 <div class="bg-gray-800 p-4 rounded-lg w-full md:w-auto text-center">
                     <h2 class="text-xl font-medium">Temperature</h2>
-                    <p class="text-3xl font-bold text-green-400">{temperature:.2f}°F</p>
+                    <p class="text-3xl font-bold text-green-400">{temperature}°F</p>
                 </div>
                 <div class="bg-gray-800 p-4 rounded-lg w-full md:w-auto text-center">
                     <h2 class="text-xl font-medium">Humidity</h2>
