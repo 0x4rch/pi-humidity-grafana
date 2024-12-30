@@ -21,9 +21,11 @@ class StreamingOutput(io.BufferedIOBase):
 
 
 class StreamingHandler(server.BaseHTTPRequestHandler):
-    def __init__(self, request, client_address, server, output, page):
+    def __init__(self, request, client_address, server, output, page, camera_stream_instance):
         self.output = output  # Pass output instance
-        self.page = page
+        self.camera_stream_instance = camera_stream_instance
+        # TODO: Remoev page input var
+        self.page = camera_stream_instance.page
         super().__init__(request, client_address, server)
 
     def do_GET(self):
@@ -69,11 +71,12 @@ class StreamingServer(socketserver.ThreadingMixIn, server.HTTPServer):
     allow_reuse_address = True
     daemon_threads = True
 
-    def __init__(self, server_address, RequestHandlerClass, output, page):
+    def __init__(self, server_address, RequestHandlerClass, output, page, camera_stream_instance):
         # Pass output to the handler
         self.output = output
         self.page = page
-        self.RequestHandlerClass = lambda *args, **kwargs: RequestHandlerClass(*args, output=self.output, page=self.page, **kwargs)
+        self.camera_stream_instance = camera_stream_instance
+        self.RequestHandlerClass = lambda *args, **kwargs: RequestHandlerClass(*args, output=self.output, page=self.page, camera_stream_instance=self.camera_stream_instance, **kwargs)
         super().__init__(server_address, self.RequestHandlerClass)
 
 
@@ -102,13 +105,14 @@ class CameraStream:
 
     def start(self):
         address = ('', 8000)
-        server = StreamingServer(address, StreamingHandler, self.output, self.page)
+        server = StreamingServer(address, StreamingHandler, self.output, self.page, self)
         try:
             server.serve_forever()
         finally:
             self.picam2.stop_recording()
 
     def update_temperature_and_humidity(self, temperature, humidity):
+        print('Updating temperature and humidity')
         self.temperature = temperature
         self.humidity = humidity
         self.page = f"""\
