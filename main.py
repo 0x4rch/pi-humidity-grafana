@@ -26,6 +26,7 @@ app.start()
 while True:
     temperature_f, humidity = sensor.read_data()
     if temperature_f is not None and humidity is not None:
+        app.update_temperature_and_humidity(temperature_f, humidity)
         point = Point("temp_f").field("temp_f", temperature_f)
         write_api.write(bucket=bucket, org="Traphouse", record=point)
         point = Point("humidity_percent").field("humidity_percent", humidity)
