@@ -26,7 +26,7 @@ class StreamingHandler(server.BaseHTTPRequestHandler):
 </head>
 <body>
 <h1>Raspberry Tips Pi Camera Live Stream Demo</h1>
-<img src="stream.mjpg" width="{width}" height="{height}" />
+<img src="stream.mjpg" width="{self.server.width}" height="{self.server.height}" />
 </body>
 </html>
 """
