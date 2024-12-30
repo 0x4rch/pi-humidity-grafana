@@ -83,7 +83,7 @@ class CameraStream:
     def __init__(self, width, height, temperature, humidity):
         self.width, self.height = width, height
         self.temperature, self.humidity = temperature, humidity
-        self.page = generate_page(self.temperature, self.humidity)
+        self.page = self.generate_page(self.temperature, self.humidity)
         self.output = StreamingOutput()
         self.picam2 = Picamera2()
         self.framerate = 24  # Set your desired framerate
@@ -102,7 +102,7 @@ class CameraStream:
         print('Updating temperature and humidity')
         self.temperature = temperature
         self.humidity = humidity
-        self.page = generate_page(self.temperature, self.humidity)
+        self.page = self.generate_page(self.temperature, self.humidity)
 
     def generate_page(self, temperature, humidity):
         f"""\
