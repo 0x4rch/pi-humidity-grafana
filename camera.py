@@ -81,7 +81,6 @@ class CameraStream:
     def __init__(self, width, height, temperature, humidity):
         self.width, self.height = width, height
         self.temperature, self.humidity = temperature, humidity
-        print(f'{self.temperature:.0f} F, {self.humidity:.0f}%')
         self.page = f"""\
         <html>
         <head>
@@ -111,7 +110,6 @@ class CameraStream:
 
     def update_temperature_and_humidity(self, temperature, humidity):
         self.temperature = temperature
-        print(f'{self.temperature:.0f} F, {self.humidity:.0f}%')
         self.humidity = humidity
 
 
