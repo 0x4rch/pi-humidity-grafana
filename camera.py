@@ -117,7 +117,12 @@ class CameraStream:
 <body class="bg-gray-900 text-gray-100 font-sans">
     <header class="p-4 bg-gray-800 border-b border-gray-700">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <h1 class="text-3xl font-bold">LIVE: Tent Camera</h1>
+            <h1 class="text-3xl font-bold flex items-center gap-2">
+                <span class="bg-red-600 text-white px-3 py-1 rounded-lg text-lg font-semibold">
+                    LIVE
+                </span>
+                Tent Camera
+            </h1>
         </div>
     </header>
     <main class="mx-auto p-6">
@@ -139,11 +144,10 @@ class CameraStream:
             </div>
         </div>
     </main>
-    <footer class="mt-8 p-4 bg-gray-800 border-t border-gray-700 text-center text-sm">
+    <footer class="p-4 bg-gray-800 border-t border-gray-700 text-center text-sm">
         <p>&copy; 2024 Tent Camera. All rights reserved.</p>
     </footer>
 </body>
 </html>
-
 """
 
