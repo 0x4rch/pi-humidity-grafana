@@ -41,4 +41,4 @@ while True:
         point = Point("humidity_percent").field("humidity_percent", humidity)
         write_api.write(bucket=bucket, org="Traphouse", record=point)
         display.print_message(humidity, temperature_f)
-    time.sleep(2.0)
+        time.sleep(2.0)
