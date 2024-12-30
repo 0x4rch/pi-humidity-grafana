@@ -25,9 +25,11 @@ temperature_f, humidity = sensor.read_data()
 
 app = CameraStream(1280, 720, temperature_f, humidity)
 # Start the app in a separate thread
+print("App starting")
 app_thread = threading.Thread(target=app.start)
 app_thread.daemon = True  # Make sure the thread exits when the main program exits
 app_thread.start()
+print("App started")
 
 while True:
     temperature_f, humidity = sensor.read_data()
