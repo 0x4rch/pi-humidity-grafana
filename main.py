@@ -32,6 +32,7 @@ app_thread.start()
 print("App started")
 
 while True:
+    print("Reading data")
     temperature_f, humidity = sensor.read_data()
     if temperature_f is not None and humidity is not None:
         app.update_temperature_and_humidity(temperature_f, humidity)
