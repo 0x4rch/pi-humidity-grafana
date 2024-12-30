@@ -85,19 +85,23 @@ class StreamingServer(socketserver.ThreadingMixIn, server.HTTPServer):
     allow_reuse_address = True
     daemon_threads = True
 
-# Create Picamera2 instance and configure it
-picam2 = Picamera2()
-FRAMERATE = 24  # Set your desired framerate
-picam2.configure(picam2.create_video_configuration(main={"size": (WIDTH, HEIGHT), "format": "RGB888"}, controls={"FrameRate": FRAMERATE}))
-output = StreamingOutput()
-picam2.start_recording(JpegEncoder(), FileOutput(output))
+class CameraServer:
+    def __init__(self):
+        pass
 
-try:
-    # Set up and start the streaming server
-    address = ('', 8000)
-    server = StreamingServer(address, StreamingHandler)
-    server.serve_forever()
-finally:
-    # Stop recording when the script is interrupted
-    picam2.stop_recording()
+    def start(self):
+        # Create Picamera2 instance and configure it
+        picam2 = Picamera2()
+        FRAMERATE = 24  # Set your desired framerate
+        picam2.configure(picam2.create_video_configuration(main={"size": (WIDTH, HEIGHT), "format": "RGB888"}, controls={"FrameRate": FRAMERATE}))
+        output = StreamingOutput()
+        picam2.start_recording(JpegEncoder(), FileOutput(output))
 
+        try:
+            # Set up and start the streaming server
+            address = ('', 8000)
+            server = StreamingServer(address, StreamingHandler)
+            server.serve_forever()
+        finally:
+            # Stop recording when the script is interrupted
+            picam2.stop_recording()

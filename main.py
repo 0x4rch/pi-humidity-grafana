@@ -7,6 +7,7 @@ from dotenv import load_dotenv
 import adafruit_dht
 from sensor import Sensor
 from display import Display
+from camera import CameraServer
 
 load_dotenv()  # take environment variables from .env.
 
@@ -19,7 +20,8 @@ write_api = client.write_api(write_options=SYNCHRONOUS)
 
 sensor = Sensor(board.D4)
 display = Display()
-
+cam_server = CameraServer()
+cam_server.start()
 while True:
     temperature_f, humidity = sensor.read_data()
     if temperature_f is not None and humidity is not None:
