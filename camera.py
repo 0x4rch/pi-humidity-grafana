@@ -107,7 +107,7 @@ class CameraStream:
         print(self.page)
 
     def generate_page(self, temperature, humidity):
-        f"""\
+        return f"""\
         <html>
         <head>
         <title>RaspberryTips Pi Cam Stream UPDATED</title>
