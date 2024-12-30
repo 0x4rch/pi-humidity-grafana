@@ -77,7 +77,7 @@ class StreamingServer(socketserver.ThreadingMixIn, server.HTTPServer):
         super().__init__(server_address, self.RequestHandlerClass)
 
 
-class PiCameraStreamApp:
+class CameraStream:
     def __init__(self):
         self.width, self.height = 1280, 720
         self.page = f"""\
@@ -107,6 +107,6 @@ class PiCameraStreamApp:
 
 
 if __name__ == "__main__":
-    app = PiCameraStreamApp()
+    app = CameraStream()
     app.start()
 

@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 import adafruit_dht
 from sensor import Sensor
 from display import Display
-from camera import StreamingApp
+from camera import CameraStream
 
 load_dotenv()  # take environment variables from .env.
 
