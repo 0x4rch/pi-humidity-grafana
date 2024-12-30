@@ -21,8 +21,13 @@ write_api = client.write_api(write_options=SYNCHRONOUS)
 sensor = Sensor(board.D4)
 display = Display()
 temperature_f, humidity = sensor.read_data()
+
 app = CameraStream(1280, 720, temperature_f, humidity)
-app.start()
+# Start the app in a separate thread
+app_thread = threading.Thread(target=app.start)
+app_thread.daemon = True  # Make sure the thread exits when the main program exits
+app_thread.start()
+
 while True:
     temperature_f, humidity = sensor.read_data()
     if temperature_f is not None and humidity is not None:
