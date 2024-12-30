@@ -103,7 +103,7 @@ class CameraStream:
 
     def start(self):
         address = ('', 8000)
-        server = StreamingServer(address, StreamingHandler, self.output, self.page, self)
+        server = StreamingServer(address, StreamingHandler, self.output, self)
         try:
             server.serve_forever()
         finally:
@@ -126,9 +126,4 @@ class CameraStream:
         </body>
         </html>
         """
-
-
-if __name__ == "__main__":
-    app = CameraStream()
-    app.start()
 
