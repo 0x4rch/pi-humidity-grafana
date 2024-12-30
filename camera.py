@@ -120,20 +120,22 @@ class CameraStream:
             <h1 class="text-3xl font-bold">LIVE: Tent Camera</h1>
         </div>
     </header>
-    <main class="max-w-7xl mx-auto p-6">
-        <div class="flex flex-col items-center gap-4">
-            <div class="flex flex-col md:flex-row items-center gap-4 w-full md:justify-between">
-                <div class="bg-gray-800 p-4 rounded-lg w-full md:w-auto text-center">
+    <main class="mx-auto p-6">
+        <div class="flex flex-col md:flex-row gap-6">
+            <!-- Video Stream -->
+            <div class="flex-1 rounded-lg overflow-hidden border border-gray-700">
+                <img src="stream.mjpg" alt="Live Stream" class="w-full h-auto">
+            </div>
+            <!-- Temperature and Humidity -->
+            <div class="flex flex-col gap-4 w-full md:w-1/6">
+                <div class="bg-gray-800 p-6 rounded-lg text-center">
                     <h2 class="text-xl font-medium">Temperature</h2>
                     <p class="text-3xl font-bold text-green-400">{temperature}°F</p>
                 </div>
-                <div class="bg-gray-800 p-4 rounded-lg w-full md:w-auto text-center">
+                <div class="bg-gray-800 p-6 rounded-lg text-center">
                     <h2 class="text-xl font-medium">Humidity</h2>
                     <p class="text-3xl font-bold text-blue-400">{humidity}</p>
                 </div>
-            </div>
-            <div class="mt-4 w-full rounded-lg overflow-hidden border border-gray-700">
-                <img src="stream.mjpg" alt="Live Stream" class="w-full h-auto">
             </div>
         </div>
     </main>
@@ -142,5 +144,6 @@ class CameraStream:
     </footer>
 </body>
 </html>
+
 """
 
