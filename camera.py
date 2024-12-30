@@ -21,10 +21,9 @@ class StreamingOutput(io.BufferedIOBase):
 
 
 class StreamingHandler(server.BaseHTTPRequestHandler):
-    def __init__(self, request, client_address, server, output, page, camera_stream_instance):
+    def __init__(self, request, client_address, server, output, camera_stream_instance):
         self.output = output  # Pass output instance
         self.camera_stream_instance = camera_stream_instance
-        # TODO: Remoev page input var
         self.page = camera_stream_instance.page
         super().__init__(request, client_address, server)
 
@@ -71,12 +70,11 @@ class StreamingServer(socketserver.ThreadingMixIn, server.HTTPServer):
     allow_reuse_address = True
     daemon_threads = True
 
-    def __init__(self, server_address, RequestHandlerClass, output, page, camera_stream_instance):
+    def __init__(self, server_address, RequestHandlerClass, output, camera_stream_instance):
         # Pass output to the handler
         self.output = output
-        self.page = page
         self.camera_stream_instance = camera_stream_instance
-        self.RequestHandlerClass = lambda *args, **kwargs: RequestHandlerClass(*args, output=self.output, page=self.page, camera_stream_instance=self.camera_stream_instance, **kwargs)
+        self.RequestHandlerClass = lambda *args, **kwargs: RequestHandlerClass(*args, output=self.output, age, camera_stream_instance=self.camera_stream_instance, **kwargs)
         super().__init__(server_address, self.RequestHandlerClass)
 
 
