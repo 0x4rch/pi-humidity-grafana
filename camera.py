@@ -1,11 +1,12 @@
+# Taken from https://raspberrytips.com/how-to-live-stream-pi-camera/
 import io
 import logging
 import socketserver
 from http import server
 from threading import Condition
-from picamera2 import picamera2
-from picamera2.encoders import jpegencoder
-from picamera2.outputs import fileoutput
+from picamera2 import Picamera2
+from picamera2.encoders import JpegEncoder
+from picamera2.outputs import FileOutput
 
 
 class StreamingOutput(io.BufferedIOBase):
@@ -20,34 +21,35 @@ class StreamingOutput(io.BufferedIOBase):
 
 
 class StreamingHandler(server.BaseHTTPRequestHandler):
+    def __init__(self, request, client_address, server, output):
+        self.output = output  # Pass output instance
+        super().__init__(request, client_address, server)
+
     def do_GET(self):
         if self.path == '/':
-            # Redirect root path to index.html
             self.send_response(301)
             self.send_header('Location', '/index.html')
             self.end_headers()
         elif self.path == '/index.html':
-            # Serve the HTML page
-            content = page.encode('utf-8')
+            content = PAGE.encode('utf-8')
             self.send_response(200)
             self.send_header('Content-Type', 'text/html')
             self.send_header('Content-Length', len(content))
             self.end_headers()
             self.wfile.write(content)
         elif self.path == '/stream.mjpg':
-            # Set up MJPEG streaming
             self.send_response(200)
             self.send_header('Age', 0)
             self.send_header('Cache-Control', 'no-cache, private')
             self.send_header('Pragma', 'no-cache')
-            self.send_header('Content-Type', 'multipart/x-mixed-replace; boundary=frame')
+            self.send_header('Content-Type', 'multipart/x-mixed-replace; boundary=FRAME')
             self.end_headers()
             try:
                 while True:
-                    with server_instance.output.condition:
-                        server_instance.output.condition.wait()
-                        frame = server_instance.output.frame
-                    self.wfile.write(b'--frame\r\n')
+                    with self.output.condition:
+                        self.output.condition.wait()
+                        frame = self.output.frame
+                    self.wfile.write(b'--FRAME\r\n')
                     self.send_header('Content-Type', 'image/jpeg')
                     self.send_header('Content-Length', len(frame))
                     self.end_headers()
@@ -58,7 +60,6 @@ class StreamingHandler(server.BaseHTTPRequestHandler):
                     'Removed streaming client %s: %s',
                     self.client_address, str(e))
         else:
-            # Handle 404 not found
             self.send_error(404)
             self.end_headers()
 
@@ -67,40 +68,43 @@ class StreamingServer(socketserver.ThreadingMixIn, server.HTTPServer):
     allow_reuse_address = True
     daemon_threads = True
 
+    def __init__(self, server_address, RequestHandlerClass, output):
+        # Pass output to the handler
+        self.output = output
+        self.RequestHandlerClass = lambda *args, **kwargs: RequestHandlerClass(*args, output=self.output, **kwargs)
+        super().__init__(server_address, self.RequestHandlerClass)
 
-class StreamingApp:
-    def __init__(self, width, height, framerate=24):
-        self.width = width
-        self.height = height
-        self.framerate = framerate
-        self.output = StreamingOutput()
-        self.picam2 = picamera2()
+
+class PiCameraStreamApp:
+    def __init__(self):
+        self.width, self.height = 1280, 720
         self.page = f"""\
-<html>
-<head>
-<title>raspberrytips pi cam stream</title>
-</head>
-<body>
-<h1>raspberry tips pi camera live stream demo</h1>
-<img src="stream.mjpg" width="{self.width}" height="{self.height}" />
-</body>
-</html>
-"""
-        self.picam2.configure(self.picam2.create_video_configuration(main={"size": (self.width, self.height), "format": "rgb888"}, controls={"framerate": self.framerate}))
-        self.picam2.start_recording(jpegencoder(), fileoutput(self.output))
+        <html>
+        <head>
+        <title>RaspberryTips Pi Cam Stream</title>
+        </head>
+        <body>
+        <h1>Raspberry Tips Pi Camera Live Stream Demo</h1>
+        <img src="stream.mjpg" width="{self.width}" height="{self.height}" />
+        </body>
+        </html>
+        """
+        self.output = StreamingOutput()
+        self.picam2 = Picamera2()
+        self.framerate = 24  # Set your desired framerate
+        self.picam2.configure(self.picam2.create_video_configuration(main={"size": (self.width, self.height), "format": "RGB888"}, controls={"FrameRate": self.framerate}))
+        self.picam2.start_recording(JpegEncoder(), FileOutput(self.output))
 
-    def start_server(self):
+    def start(self):
+        address = ('', 8000)
+        server = StreamingServer(address, StreamingHandler, self.output)
         try:
-            address = ('', 8000)
-            server_instance = StreamingServer(address, StreamingHandler)
-            server_instance.output = self.output  # Assign the shared output instance
-            server_instance.serve_forever()
+            server.serve_forever()
         finally:
-            # Stop recording when the script is interrupted
             self.picam2.stop_recording()
 
 
-if __name__ == '__main__':
-    app = StreamingApp(1280, 720)
-    app.start_server()
+if __name__ == "__main__":
+    app = PiCameraStreamApp()
+    app.start()
 
