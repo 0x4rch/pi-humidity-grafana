@@ -106,16 +106,41 @@ class CameraStream:
 
     def generate_page(self, temperature, humidity):
         return f"""\
-        <html>
-        <head>
-        <title>Tent Camera</title>
-        </head>
-        <body>
-        <h1>LIVE: Tent Camera</h1>
-        <h2>Temperature: {temperature}</h2>
-        <h2>Humidity: {humidity}</h2>
-        <img src="stream.mjpg" width="{self.width}" height="{self.height}" />
-        </body>
-        </html>
-        """
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tent Camera</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 text-gray-100 font-sans">
+    <header class="p-4 bg-gray-800 border-b border-gray-700">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <h1 class="text-3xl font-bold">LIVE: Tent Camera</h1>
+        </div>
+    </header>
+    <main class="max-w-7xl mx-auto p-6">
+        <div class="flex flex-col items-center gap-4">
+            <div class="flex flex-col md:flex-row items-center gap-4 w-full md:justify-between">
+                <div class="bg-gray-800 p-4 rounded-lg w-full md:w-auto text-center">
+                    <h2 class="text-xl font-medium">Temperature</h2>
+                    <p class="text-3xl font-bold text-green-400">{temperature.:.2f}°F</p>
+                </div>
+                <div class="bg-gray-800 p-4 rounded-lg w-full md:w-auto text-center">
+                    <h2 class="text-xl font-medium">Humidity</h2>
+                    <p class="text-3xl font-bold text-blue-400">{humidity}</p>
+                </div>
+            </div>
+            <div class="mt-4 w-full rounded-lg overflow-hidden border border-gray-700">
+                <img src="stream.mjpg" alt="Live Stream" class="w-full h-auto">
+            </div>
+        </div>
+    </main>
+    <footer class="mt-8 p-4 bg-gray-800 border-t border-gray-700 text-center text-sm">
+        <p>&copy; 2024 Tent Camera. All rights reserved.</p>
+    </footer>
+</body>
+</html>
+"""
 
