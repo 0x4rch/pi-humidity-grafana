@@ -69,10 +69,11 @@ class StreamingServer(socketserver.ThreadingMixIn, server.HTTPServer):
     allow_reuse_address = True
     daemon_threads = True
 
-    def __init__(self, server_address, RequestHandlerClass, output):
+    def __init__(self, server_address, RequestHandlerClass, output, page):
         # Pass output to the handler
         self.output = output
-        self.RequestHandlerClass = lambda *args, **kwargs: RequestHandlerClass(*args, output=self.output, **kwargs)
+        self.page = page
+        self.RequestHandlerClass = lambda *args, **kwargs: RequestHandlerClass(*args, output=self.output, page=self.page, **kwargs)
         super().__init__(server_address, self.RequestHandlerClass)
 
 
