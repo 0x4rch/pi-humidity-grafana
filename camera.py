@@ -38,6 +38,10 @@ class StreamingOutput(io.BufferedIOBase):
 
 # Class to handle HTTP requests
 class StreamingHandler(server.BaseHTTPRequestHandler):
+    def __init__(self, *args, output=None, **kwargs):
+        self.output = output  # Store the output reference
+        super().__init__(*args, **kwargs)
+
     def do_GET(self):
         if self.path == '/':
             # Redirect root path to index.html
@@ -87,6 +91,7 @@ class StreamingServer(socketserver.ThreadingMixIn, server.HTTPServer):
 
 class CameraServer:
     def __init__(self):
+        self.output = StreamingOutput()
         pass
 
     def start(self):
@@ -94,13 +99,12 @@ class CameraServer:
         picam2 = Picamera2()
         FRAMERATE = 24  # Set your desired framerate
         picam2.configure(picam2.create_video_configuration(main={"size": (WIDTH, HEIGHT), "format": "RGB888"}, controls={"FrameRate": FRAMERATE}))
-        output = StreamingOutput()
-        picam2.start_recording(JpegEncoder(), FileOutput(output))
+        picam2.start_recording(JpegEncoder(), FileOutput(self.output))
 
         try:
             # Set up and start the streaming server
             address = ('', 8000)
-            server = StreamingServer(address, StreamingHandler)
+            server = StreamingServer(address, StreamingHandler(*args, output=self.output, **kwargs))
             server.serve_forever()
         finally:
             # Stop recording when the script is interrupted
