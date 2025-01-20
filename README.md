@@ -21,3 +21,6 @@ bucket="" # Influx Bucket
 
 ### Display
 We also support a 16x2 lcd display check out Display.py for info
+
+### Camera
+We also support a raspberry pi camera which will output to a mjpeg livestream alongside a web app running at `:8000` for a live view with the temperature and humidity
