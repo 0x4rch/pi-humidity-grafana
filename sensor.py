@@ -15,6 +15,7 @@ class Sensor:
             return temperature_f, humidity
         except RuntimeError as error:
             # Errors happen fairly often, DHT's are hard to read, just keep going
+            print(error)
             time.sleep(2.0)
             return None, None
         except Exception as error:
